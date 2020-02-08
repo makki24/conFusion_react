@@ -18,20 +18,11 @@ class DishDetail extends Component
                     const menu=dish.comments.map(
                     (text)=>
                         {
-                            let str=text.date;
-                            str=str.slice(0,10);
-                            let venues=", ";
-                            let venue=month[Number(str.slice(5,7))];
-                            venues+=venue+" ";
-                            venue=Number(str.slice(8,10))+1;
-                            venues+=venue+", ";
-                            venue=str.slice(0,4);
-                            venues+=venue;
-                            console.log(venues);
+                            let venues=new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(text.date)));
                             return (
                                 <div id={text.id}>
                                     <p>{text.comment}</p>
-                                    <p>--{text.author}{venues}</p>
+                                    <p>--{text.author} {venues}</p>
                                 </div>
                             );
                         }
