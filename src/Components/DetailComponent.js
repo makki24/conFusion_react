@@ -1,21 +1,10 @@
-import React,{Component} from "react";
-import {Card,CardImg,CardTitle,CardImgOverlay,CardBody,CardText} from 'reactstrap';
-class DishDetail extends Component
-{
-    constructor(props)
-    {
-        super(props);
+import React from "react";
+import {Card,CardImg,CardTitle,CardBody,CardText} from 'reactstrap';
 
-    }
-    render()
-        {
-            const month=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            const dish=this.props.dish;
-            if(dish==null)
-             return (<div></div>);
-            else
-                {
-                    const menu=dish.comments.map(
+
+    function Rendercomm({dish})
+    {
+            const comm=dish.comments.map(
                     (text)=>
                         {
                             let venues=new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(text.date)));
@@ -27,6 +16,16 @@ class DishDetail extends Component
                             );
                         }
                     );
+            return comm;
+    }
+    const DishDetail=(props)=>
+        {
+            const dish=props.dish;
+            if(dish==null)
+             return (<div></div>);
+            else
+                {
+
                     return(
                         <div key={dish.id} className={'row'}>
                             <div className={'col-12 col-md-5 m-1'}>
@@ -40,12 +39,11 @@ class DishDetail extends Component
                             </div>
                             <div className={'col-12 col-md-5 m-1'}>
                                 <h2>Comments</h2>
-                                {menu}
+                                <Rendercomm dish={dish} />
                             </div>
                         </div>
                     );
                 }
         }
-}
 
 export default DishDetail;
