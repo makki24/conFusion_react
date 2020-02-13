@@ -18,9 +18,11 @@ import {Card,CardImg,CardTitle,CardImgOverlay,} from 'reactstrap';
             });
 
         return (
+            <div className={'container'}>
                 <div className={'row'}>
                 {menu}
                 </div>
+            </div>
         );
     }
 
