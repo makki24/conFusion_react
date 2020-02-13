@@ -24,12 +24,6 @@ class Main extends Component
         };
   }
   render() {
-       const HomePages=()=>
-      {
-          return(
-             <div> {this.state.dish.filter((dish)=>dish.featured)[0].description}</div>
-          );
-      }
       const HomePage=()=>
       {
           return(
@@ -38,13 +32,24 @@ class Main extends Component
               leader={this.state.leaders.filter((dish)=>dish.featured)[0]}
               />
           );
-      }
+      };
+
+      const dishwithid=({match})=>
+      {
+          return(
+          <DishDetail dish={this.state.dish.filter((dish)=>dish.id===parseInt(match.params.dishId,10))[0]} comments={
+              this.state.comments.filter((dish)=>dish.dishId===parseInt(match.params.dishId,10))
+          }/>
+          );
+      };
+
     return (
       <div>
           <Header />
           <Switch>
               <Route path={"/home"} component={HomePage}/>
               <Route exact path={'/menu'} component={ () => <Menu dishes={this.state.dish} />  }/>
+              <Route path={'/menu/:dishId'} component={dishwithid}/>
               <Route exact path={'/contactus'} component={Contact}/>
               <Redirect to={'/home'}/>
           </Switch>
