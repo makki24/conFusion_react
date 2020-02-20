@@ -4,13 +4,24 @@ import { DISHES } from "../shared/dishes.js";
 import DishDetail from "./DetailComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import {Switch,Route,Redirect} from 'react-router-dom';
+import {Switch,Route,Redirect,withRouter} from 'react-router-dom';
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import {COMMENTS} from "../shared/comments";
 import {PROMOTIONS} from "../shared/promotions";
 import {LEADERS} from "../shared/leaders";
 import About from "./AboutComponent";
+import {connect} from 'react-redux';
+
+const mapStateToProps = (state) =>
+{
+    return{
+        dishes:state.dishes,
+        comments:state.comments,
+        leaders: state.leaders,
+        promotions: state.promotions
+    }
+}
 class Main extends Component
 {
   constructor(props)
@@ -62,4 +73,4 @@ class Main extends Component
   }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
