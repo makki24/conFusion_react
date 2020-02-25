@@ -52,7 +52,7 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
         }
         handleSubmit(value)
         {
-            alert("Current string is "+ JSON.stringify(value));
+            this.props.addComment(this.props.dishId,value.rating,value.name,value.comment)
         }
         render()
         {
@@ -150,7 +150,7 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
                             <div className={'col-12 col-md-5 m-1'}>
                                 <h2>Comments</h2>
                                 <Rendercomm comme={props.comments} />
-                                <CommentForm/>
+                                <CommentForm addComment={props.addComment} dishId={props.dish.id}/>
                             </div>
                         </div>
 
