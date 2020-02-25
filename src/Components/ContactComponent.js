@@ -119,7 +119,7 @@ class Contact extends Component
                                 <Col md={{size:6, offset:2}}>
                                     <div className={'form-check'}>
                                         <Label check>
-                                            <Control.checkbox model={".agree"} name={'agree'} className={'form-check-input'}/>{' '}
+                                            <Control.checkbox model={".agree"} name={'agree'} id='agree' className={'form-check-input'}/>{' '}
                                             <strong> May we contact you ?</strong>
                                         </Label>
                                     </div>
@@ -136,7 +136,7 @@ class Contact extends Component
                                     Your feedback
                                 </Label>
                                 <Col md={10}>
-                                    <Control.textarea model={'.textarea'} name={'message'} id={'message'} rows={12} className={'form-control'}/>
+                                    <Control.textarea model={'.message'} name={'message'} id={'message'} rows={12} className={'form-control'}/>
                                 </Col>
                             </Row>
                              <Row className={'form-group'}>

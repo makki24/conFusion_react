@@ -1,8 +1,22 @@
-import React from "react";
-import {Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import React, {Component} from "react";
+import {
+    Card,
+    CardImg,
+    CardTitle,
+    CardBody,
+    CardText,
+    Breadcrumb,
+    BreadcrumbItem,
+    Button,
+    Modal,
+    ModalHeader, ModalBody, Label,Row,
+    Col
+} from 'reactstrap';
 import {Link} from "react-router-dom";
+import {LocalForm, Control, Errors} from "react-redux-form";
 
-
+const minlength=(len) =>(val)=> val && (val.length>=len);
+const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
     function Rendercomm({comme})
     {
             const comm=comme.map(
@@ -10,18 +24,108 @@ import {Link} from "react-router-dom";
                         {
                             let venues=new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(text.date)));
                             return (
-                                <div id={text.id}>
-                                    <p>{text.comment}</p>
-                                    <p>--{text.author} {venues}</p>
-                                </div>
+                                    <div id={text.id}>
+                                        <p>{text.comment}</p>
+                                        <p>--{text.author} {venues}</p>
+                                    </div>
                             );
                         }
                     );
             return comm;
     }
-    const DishDetail=(props)=>
+    class CommentForm extends Component
+    {
+
+        constructor(props)
         {
-            const dish=props.dish;
+            super(props);
+            this.state=
+                {
+                  isModOpen:false
+                };
+        }
+        toggleMod()
+        {
+            this.setState({
+                isModOpen:!this.state.isModOpen
+            })
+        }
+        handleSubmit(value)
+        {
+            alert("Current string is "+ JSON.stringify(value));
+        }
+        render()
+        {
+            return (
+            <div>
+                <Button onClick={()=>this.toggleMod()} className={'btn btn-outline-secondary'}>
+                                        <i className={'fa fa-pencil fa-lg'}></i>{' Submit Comment'}
+                </Button>
+                <Modal isOpen={this.state.isModOpen} toggle={()=>this.toggleMod()}>
+                    <ModalHeader toggle={()=>this.toggleMod()}>
+                        Submit Comment
+                    </ModalHeader>
+                    <ModalBody>
+                            <LocalForm onSubmit={(value)=>this.handleSubmit(value)}>
+                                <Row className={'form-group'}>
+                                    <Label htmlFor={'selection'} sm={12}>
+                                        Rating
+                                    </Label>
+                                    <Col md={{size:12}}>
+                                        <Control.select model={'.rating'}  className={'form-control'} name={'rating'}>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </Control.select>
+                                    </Col>
+                                </Row>
+                                <Row className={'form-group'}>
+                                    <Label htmlFor={'name'} sm={12}>
+                                        Your Name
+                                    </Label>
+                                    <Col md={{size:12}}>
+                                        <Control.text model={'.name'} className={'form-control'} name={'name'} id={'name'}
+                                        placeholder={'Your Name'} validators={{minlength: minlength(2),maxlength:maxlength(15)}}/>
+                                        <Errors model={'.name'} className={'text-danger'} show={'touched'} messages={{
+                                            minlength: 'Must be greater than 2 characters',maxlength:'Must be 15 characters' +
+                                                'or less'
+                                        }}/>
+                                    </Col>
+                                </Row>
+                                <Row className={'form-group'}>
+                                    <Label htmlFor={'comment'} sm={12}>
+                                        Comment
+                                    </Label>
+                                    <Col md={{size:12}}>
+                                        <Control.textarea model={'.comment'} className={'form-control'} name={'comment'}
+                                         id={'comment'} rows={8}/>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={{size:12}}>
+                                    <Button type={'submit'} color={'primary'}>
+                                        Submit
+                                    </Button>
+                                    </Col>
+                                </Row>
+                            </LocalForm>
+                    </ModalBody>
+                </Modal>
+            </div>
+            );
+        }
+    }
+    class DishDetail extends Component
+    {
+        constructor(props)
+        {
+            super(props);
+        }
+        render()
+        {
+            const dish=this.props.dish;
             if(dish==null)
              return (<div></div>);
             else
@@ -35,7 +139,7 @@ import {Link} from "react-router-dom";
                                     <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
                                 </Breadcrumb>
                                 <div className={'col-12'}>
-                                    <h3>{props.dish.name}</h3>
+                                    <h3>{this.props.dish.name}</h3>
                                     <hr />
                                 </div>
                              </div>
@@ -51,12 +155,17 @@ import {Link} from "react-router-dom";
                                 </div>
                                 <div className={'col-12 col-md-5 m-1'}>
                                     <h2>Comments</h2>
-                                    <Rendercomm comme={props.comments} />
+                                    <Rendercomm comme={this.props.comments} />
+                                    <CommentForm/>
                                 </div>
                             </div>
+
                         </div>
+
                     );
                 }
-        };
+            }
+
+    };
 
 export default DishDetail;
