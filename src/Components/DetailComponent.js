@@ -117,55 +117,48 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
             );
         }
     }
-    class DishDetail extends Component
+    function DishDetail(props)
     {
-        constructor(props)
-        {
-            super(props);
-        }
-        render()
-        {
-            const dish=this.props.dish;
-            if(dish==null)
-             return (<div></div>);
-            else
-                {
+        const dish=props.dish;
+        if(dish==null)
+         return (<div></div>);
+        else
+            {
 
-                    return(
-                        <div className={'container'}>
-                            <div className={'row ml-0'}>
-                                <Breadcrumb>
-                                    <BreadcrumbItem><Link to={'/menu'}>Menu</Link></BreadcrumbItem>
-                                    <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
-                                </Breadcrumb>
-                                <div className={'col-12'}>
-                                    <h3>{this.props.dish.name}</h3>
-                                    <hr />
-                                </div>
-                             </div>
-                            <div key={dish.id} className={'row'}>
-                                <div className={'col-12 col-md-5 m-1'}>
-                                    <Card>
-                                        <CardImg top src={dish.image} alt={dish.name} />
-                                        <CardBody>
-                                        <CardTitle>{dish.name}</CardTitle>
-                                        <CardText>{dish.description}</CardText>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                                <div className={'col-12 col-md-5 m-1'}>
-                                    <h2>Comments</h2>
-                                    <Rendercomm comme={this.props.comments} />
-                                    <CommentForm/>
-                                </div>
+                return(
+                    <div className={'container'}>
+                        <div className={'row ml-0'}>
+                            <Breadcrumb>
+                                <BreadcrumbItem><Link to={'/menu'}>Menu</Link></BreadcrumbItem>
+                                <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className={'col-12'}>
+                                <h3>{props.dish.name}</h3>
+                                <hr />
                             </div>
-
+                         </div>
+                        <div key={dish.id} className={'row'}>
+                            <div className={'col-12 col-md-5 m-1'}>
+                                <Card>
+                                    <CardImg top src={dish.image} alt={dish.name} />
+                                    <CardBody>
+                                    <CardTitle>{dish.name}</CardTitle>
+                                    <CardText>{dish.description}</CardText>
+                                    </CardBody>
+                                </Card>
+                            </div>
+                            <div className={'col-12 col-md-5 m-1'}>
+                                <h2>Comments</h2>
+                                <Rendercomm comme={props.comments} />
+                                <CommentForm/>
+                            </div>
                         </div>
 
-                    );
-                }
+                    </div>
+
+                );
             }
 
-    };
+    }
 
 export default DishDetail;
