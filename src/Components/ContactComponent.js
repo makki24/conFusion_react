@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Breadcrumb, BreadcrumbItem,Row, Label, Col, Button} from "reactstrap";
 import {Link} from "react-router-dom";
-import {Control, Errors, LocalForm} from "react-redux-form";
+import {Control, Errors, Form} from "react-redux-form";
 
 const required=(val) => val && val.length;
 const minlength=(len) => (val) => val && (len<=val.length);
@@ -20,6 +20,7 @@ class Contact extends Component
     {
         console.log("current string is "+ JSON.stringify(values));
         alert("current string is "+ JSON.stringify(values));
+        this.props.actionsReset();
     }
     render()
     {
@@ -66,7 +67,7 @@ class Contact extends Component
                         <h3>Send us your Feedback</h3>
                     </div>
                     <div className={'col-12 col-md-9'}>
-                        <LocalForm onSubmit={(values)=>this.handleSubmit(values)}>
+                        <Form model={'feedback'} onSubmit={(values)=>this.handleSubmit(values)}>
                             <Row className={'form-group'}>
                                 <Label htmlFor={'firstname'} md={2}>
                                     First name
@@ -108,9 +109,9 @@ class Contact extends Component
                                     E-mail
                                 </Label>
                                 <Col md={10}>
-                                    <Control.text model={'.E-mail'} name={'E-mail'} id={'E-mail'} placeholder={'E-mail'}
+                                    <Control.text model={'.email'} name={'email'} id={'email'} placeholder={'email'}
                                     className={'form-control'} validators={{required,validEmail}}/>
-                                    <Errors model={'.E-mail'} className={'text-danger'} show={'touched'} messages={{required: 'requiered',validEmail:
+                                    <Errors model={'.email'} className={'text-danger'} show={'touched'} messages={{required: 'requiered',validEmail:
                                         "invalid Email"
                                     }} />
                                 </Col>
@@ -146,7 +147,7 @@ class Contact extends Component
                                     </Button>
                                 </Col>
                             </Row>
-                        </LocalForm>
+                        </Form>
                     </div>
                 </div>
             </div>
