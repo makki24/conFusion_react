@@ -8,7 +8,8 @@ import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import {connect} from 'react-redux';
-import {addComment} from "../redux/ActionCreator";
+import {addComment, adddishes, fetchDishes} from "../redux/ActionCreator";
+import {DISHES} from "../shared/dishes";
 
 const mapStateToProps = (state) =>
 {
@@ -20,11 +21,18 @@ const mapStateToProps = (state) =>
     }
 }
 const mapDispatchToProps= (dispatch) => ({
-    addComment:(dishId,rating, author, comment) => dispatch(addComment(dishId,rating,author,comment))
+    addComment:(dishId,rating, author, comment) => dispatch(addComment(dishId,rating,author,comment)),
+    fetchDishes:() => dispatch(fetchDishes())
 });
+
 class Main extends Component
 {
-  constructor(props)
+
+  componentDidMount()
+  {
+      this.props.fetchDishes();
+  }
+    constructor(props)
   {
     super(props);
   }
@@ -32,7 +40,9 @@ class Main extends Component
       const HomePage=()=>
       {
           return(
-              <Home dish={this.props.dish.filter((dish)=>dish.featured)[0]}
+              <Home dish={this.props.dish.dishes.filter((dish)=>dish.featured)[0]}
+              isLoading={this.props.dish.isLoading}
+              errMsg={this.props.dish.errmsg}
               promotions={this.props.promotions.filter((dish)=>dish.featured)[0]}
               leader={this.props.leaders.filter((dish)=>dish.featured)[0]}
               />
@@ -43,9 +53,11 @@ class Main extends Component
       {
           const match=props.match;
           return(
-          <DishDetail dish={this.props.dish.filter((dish)=>dish.id===parseInt(match.params.dishId,10))[0]} comments={
+          <DishDetail dish={this.props.dish.dishes.filter((dish)=>dish.id===parseInt(match.params.dishId,10))[0]} comments={
               this.props.comments.filter((dish)=>dish.dishId===parseInt(match.params.dishId,10))
-          } addComment={this.props.addComment}/>
+          } addComment={this.props.addComment}
+          isLoading={this.props.dish.isLoading}
+          errmsg={this.props.dish.errmsg}/>
           );
       };
 

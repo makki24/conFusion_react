@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import {Link} from "react-router-dom";
 import {LocalForm, Control, Errors} from "react-redux-form";
+import {Loading} from "./Loading";
 
 const minlength=(len) =>(val)=> val && (val.length>=len);
 const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
@@ -119,46 +120,62 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
     }
     function DishDetail(props)
     {
-        const dish=props.dish;
-        if(dish==null)
-         return (<div></div>);
+        if(props.isLoading)
+         {
+             return (
+                 <div className={'container'}>
+                     <div className={'row'}>
+                         <Loading/>
+                     </div>
+                 </div>
+             )
+         }
+        else if(props.errmsg)
+        {
+            return (
+                 <div className={'container'}>
+                     <div className={'row'}>
+                         <h4>{props.errmsg}</h4>
+                     </div>
+                 </div>
+             )
+        }
         else
-            {
-
-                return(
-                    <div className={'container'}>
-                        <div className={'row ml-0'}>
-                            <Breadcrumb>
-                                <BreadcrumbItem><Link to={'/menu'}>Menu</Link></BreadcrumbItem>
-                                <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
-                            </Breadcrumb>
-                            <div className={'col-12'}>
-                                <h3>{props.dish.name}</h3>
-                                <hr />
-                            </div>
-                         </div>
-                        <div key={dish.id} className={'row'}>
-                            <div className={'col-12 col-md-5 m-1'}>
-                                <Card>
-                                    <CardImg top src={dish.image} alt={dish.name} />
-                                    <CardBody>
-                                    <CardTitle>{dish.name}</CardTitle>
-                                    <CardText>{dish.description}</CardText>
-                                    </CardBody>
-                                </Card>
-                            </div>
-                            <div className={'col-12 col-md-5 m-1'}>
-                                <h2>Comments</h2>
-                                <Rendercomm comme={props.comments} />
-                                <CommentForm addComment={props.addComment} dishId={props.dish.id}/>
-                            </div>
+        {
+            const dish=props.dish;
+            return(
+                <div className={'container'}>
+                    <div className={'row ml-0'}>
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to={'/menu'}>Menu</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+                        </Breadcrumb>
+                        <div className={'col-12'}>
+                            <h3>{props.dish.name}</h3>
+                            <hr />
                         </div>
-
+                     </div>
+                    <div key={dish.id} className={'row'}>
+                        <div className={'col-12 col-md-5 m-1'}>
+                            <Card>
+                                <CardImg top src={dish.image} alt={dish.name} />
+                                <CardBody>
+                                <CardTitle>{dish.name}</CardTitle>
+                                <CardText>{dish.description}</CardText>
+                                </CardBody>
+                            </Card>
+                        </div>
+                        <div className={'col-12 col-md-5 m-1'}>
+                            <h2>Comments</h2>
+                            <Rendercomm comme={props.comments} />
+                            <CommentForm addComment={props.addComment} dishId={props.dish.id}/>
+                        </div>
                     </div>
 
-                );
-            }
+                </div>
 
+            );
+        }
     }
 
 export default DishDetail;
