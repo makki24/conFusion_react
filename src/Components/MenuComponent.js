@@ -2,6 +2,7 @@ import React from "react";
 import {Card, CardImg, CardTitle, CardImgOverlay, Breadcrumb, BreadcrumbItem,} from 'reactstrap';
 import {Link} from "react-router-dom";
 import {Loading} from "./Loading";
+import {baseUrl} from "../shared/baseUrl";
     function Menu(props)
     {
         const menu=props.dishes.dishes.map((dish)=>
@@ -11,7 +12,7 @@ import {Loading} from "./Loading";
                 <div className={"col-12 col-md-5 m-1"}>
                     <Card key={dish.id}>
                         <Link to={`menu/${dish.id}`}>
-                            <CardImg width="100%" src={dish.image} alt={dish.name} />
+                            <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name} />
                             <CardImgOverlay>
                                 <CardTitle>
                                     {dish.name}
