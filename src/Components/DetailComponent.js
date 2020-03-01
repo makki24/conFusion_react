@@ -54,7 +54,8 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
         }
         handleSubmit(value)
         {
-            this.props.addComment(this.props.dishId,value.rating,value.name,value.comment)
+        //    this.toggleMod();
+            this.props.postComment(this.props.dishId,value.rating,value.name,value.comment)
         }
         render()
         {
@@ -169,7 +170,7 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
                         <div className={'col-12 col-md-5 m-1'}>
                             <h2>Comments</h2>
                             <Rendercomm comme={props.comments} />
-                            <CommentForm addComment={props.addComment} dishId={props.dish.id}/>
+                            <CommentForm postComment={props.postComment} dishId={props.dish.id}/>
                         </div>
                     </div>
 
