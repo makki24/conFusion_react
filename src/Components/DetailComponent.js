@@ -9,13 +9,14 @@ import {
     BreadcrumbItem,
     Button,
     Modal,
-    ModalHeader, ModalBody, Label,Row,
-    Col
+    ModalHeader, ModalBody, Label, Row,
+    Col, Fade
 } from 'reactstrap';
 import {Link} from "react-router-dom";
 import {LocalForm, Control, Errors} from "react-redux-form";
 import {Loading} from "./Loading";
 import {baseUrl} from "../shared/baseUrl";
+import {FadeTransform,Stagger} from "react-animation-components";
 
 const minlength=(len) =>(val)=> val && (val.length>=len);
 const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
@@ -24,16 +25,20 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
             const comm=comme.map(
                     (text)=>
                         {
-                            let venues=new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(text.date)));
+                            let venues=new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'})
+                            .format(new Date(Date.parse(text.date)));
                             return (
+                                    <Fade in>
                                     <div id={text.id}>
                                         <p>{text.comment}</p>
                                         <p>--{text.author} {venues}</p>
                                     </div>
+                                    </Fade>
                             );
                         }
                     );
             return comm;
+
     }
     class CommentForm extends Component
     {
@@ -159,6 +164,7 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
                      </div>
                     <div key={dish.id} className={'row'}>
                         <div className={'col-12 col-md-5 m-1'}>
+                            <FadeTransform in transformProps={{exitTransform: 'scale(0.5) translateY(-50%)'}}>
                             <Card>
                                 <CardImg top src={baseUrl+dish.image} alt={dish.name} />
                                 <CardBody>
@@ -166,11 +172,14 @@ const maxlength=(len) =>(val)=> !(val) || (val.length<=len)
                                 <CardText>{dish.description}</CardText>
                                 </CardBody>
                             </Card>
+                            </FadeTransform>
                         </div>
                         <div className={'col-12 col-md-5 m-1'}>
+                            <Stagger in>
                             <h2>Comments</h2>
                             <Rendercomm comme={props.comments} />
                             <CommentForm postComment={props.postComment} dishId={props.dish.id}/>
+                            </Stagger>
                         </div>
                     </div>
 
