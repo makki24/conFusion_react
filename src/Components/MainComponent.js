@@ -8,7 +8,7 @@ import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import {connect} from 'react-redux';
-import {postComment, fetchPromos,fetchComments, fetchDishes} from "../redux/ActionCreator";
+import {postComment, fetchPromos, fetchComments, fetchDishes, fetchLeaders, postFeedback} from "../redux/ActionCreator";
 import {actions} from 'react-redux-form';
 import {TransitionGroup,CSSTransition} from 'react-transition-group'
 const mapStateToProps = (state) =>
@@ -22,11 +22,14 @@ const mapStateToProps = (state) =>
 }
 const mapDispatchToProps= (dispatch) => ({
     postComment:(dishId,rating, author, comment) => dispatch(postComment(dishId,rating,author,comment)),
+    postFeedback:(firstname,lastname,telnum,email,agree,contactType,message) =>
+        dispatch(postFeedback(firstname,lastname,telnum,email,agree,contactType,message)),
     fetchDishes:() => dispatch(fetchDishes()),
     actionsReset:() => dispatch(actions.reset('feedback')),
 
     fetchPromos:() => dispatch(fetchPromos()),
     fetchComments:() => dispatch(fetchComments()),
+    fetchLeaders:() =>dispatch(fetchLeaders()),
 });
 
 class Main extends Component
@@ -37,6 +40,7 @@ class Main extends Component
       this.props.fetchDishes();
       this.props.fetchPromos();
       this.props.fetchComments();
+      this.props.fetchLeaders();
   }
     constructor(props)
   {
@@ -52,7 +56,9 @@ class Main extends Component
               promotions={this.props.promotions.promos.filter((dish)=>dish.featured)[0]}
               promoisLoading={this.props.promotions.isLoading}
               promoerrMsg={this.props.promotions.errmsg}
-              leader={this.props.leaders.filter((dish)=>dish.featured)[0]}
+              leader={this.props.leaders.leaders.filter((dish)=>dish.featured)[0]}
+              leaderIsLoading={this.props.leaders.isLoading}
+              leadererrMsg={this.props.leaders.errmsg}
               />
           );
       };
@@ -79,8 +85,9 @@ class Main extends Component
                       <Route path={"/home"} component={HomePage}/>
                       <Route exact path={'/menu'} component={ () => <Menu dishes={this.props.dish} />  }/>
                       <Route path={'/menu/:dishId'} component={dishwithid}/>
-                      <Route exact path={'/contactus'} component={()=><Contact actionsReset={this.props.actionsReset}/>}/>
-                      <Route exact path={'/aboutus'} component={()=> <About leaders={this.props.leaders}/>} />
+                      <Route exact path={'/contactus'} component={()=><Contact actionsReset={this.props.actionsReset}
+                      postFeedback={this.props.postFeedback}/>}/>
+                      <Route exact path={'/aboutus'} component={()=> <About leaders={this.props.leaders.leaders}/>} />
                       <Redirect to={'/home'}/>
                   </Switch>
                </CSSTransition>
