@@ -1,6 +1,5 @@
 import * as ActionTypes from './ActionTypes'
 import {baseUrl} from "../shared/baseUrl";
-import {leaders} from "./leaders";
 import {LEADERS_LOADING} from "./ActionTypes";
 import {LEADERS_FAILED} from "./ActionTypes";
 import {ADD_LEADERES} from "./ActionTypes";
@@ -120,6 +119,7 @@ export const fetchLeaders =() => (dispatch) =>
         else
         {
             var err=new Error("Error"+response.status+ response.statusText);
+            throw err;
         }
     },(error)=>{
         var err=new Error("Server not responding"+ error.message);

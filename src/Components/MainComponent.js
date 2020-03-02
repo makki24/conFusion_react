@@ -42,10 +42,7 @@ class Main extends Component
       this.props.fetchComments();
       this.props.fetchLeaders();
   }
-    constructor(props)
-  {
-    super(props);
-  }
+
   render() {
       const HomePage=()=>
       {

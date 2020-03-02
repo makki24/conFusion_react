@@ -1,6 +1,4 @@
-import {LEADERS} from "../shared/leaders";
 import * as ActionTypes from "./ActionTypes"
-import {leadersLoading} from "./ActionCreator";
 
 export const leaders = (state={isLoading:true,errmsg:null,leaders:[]},action) =>
 {
@@ -11,7 +9,7 @@ export const leaders = (state={isLoading:true,errmsg:null,leaders:[]},action) =>
         case ActionTypes.LEADERS_FAILED:
             return {errmsg: action.payload,leaders: [],isLoading: false};
 
-        case ActionTypes.LEADERS_LOADING:
+    case ActionTypes.LEADERS_LOADING:
             return {errmsg: null,leaders: [],isLoading: true};
 
         default:return state;

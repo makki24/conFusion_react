@@ -101,9 +101,9 @@ class Contact extends Component
                                 <Col md={10}>
                                     <Control.text model={'.telnum'} name={'telnum'} id={'telnum'} placeholder={'Tel. num '}
                                     className={'form-control'} validators={{required,minlength:minlength(2),
-                                    maxlength:maxlength(15)}}/>
+                                    maxlength:maxlength(15),isNumber}}/>
                                      <Errors model={'.telnum'} className={'text-danger'} show={'touched'} messages={{required:'requiered ',
-                                    minlength:"must be 2",maxlength:'less than 15'}}/>
+                                    minlength:"must be 2",maxlength:'less than 15',isNumber:"must be a number"}}/>
                                 </Col>
                             </Row>
                             <Row className={'form-group'}>
